@@ -45,5 +45,29 @@ pipeline {
                 archiveArtifacts "${DoxyGenTarFileName}"
             }
         }
+        stage('Push to pipelines repo in branch taskB'){
+            steps {
+                sh 'mkdir -p pipelines'
+                dir("pipelines"){
+                    git branch: 'taskB', url: 'ssh://git@github.com/lurwas/pipelines.git'
+                    sh 'git config user.name "${COMMIT_AUTHOR_NAME}"'
+                    sh 'git config user.email "${COMMIT_AUTHOR_EMAIL}"'
+                    sh 'git status'
+                    sh 'git checkout -B taskB'
+                    sh 'git fetch --all'
+                    sh 'git reset --hard origin/taskB'
+                    sh 'ls  ../"${DoxyGenTarFileName}"'
+                    sh 'cp -f ../"${DoxyGenTarFileName}" doxy_gen"${PIPELINE_NUMBER}".tar.gz'
+                    sh 'ls -alh doxy_gen"${PIPELINE_NUMBER}".tar.gz'
+                    sh 'git add doxy_gen"${PIPELINE_NUMBER}".tar.gz"'
+                    sh 'git commit -m "Added built artifact from pipeline: ${PIPELINE_NAME}:${PIPELINE_NUMBER}"'
+                    sh 'git remote set-url origin git@github.com:lurwas/pipelines.git'
+                    sh 'git remote -v'
+                    sh 'git status'
+                    sh 'git push --set-upstream origin taskB'
+                    sh 'git push'
+                }
+            }
+        }
     }
 }
