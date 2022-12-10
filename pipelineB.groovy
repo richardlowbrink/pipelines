@@ -1,6 +1,10 @@
 pipeline {
     agent any
     environment {
+        PIPELINE_NAME = "${currentBuild.fullDisplayName}"
+        PIPELINE_NUMBER = "${currentBuild.number}"
+        COMMIT_AUTHOR_NAME = "lurwas"
+        COMMIT_AUTHOR_EMAIL = "lurwas@emacs.se"
         String DoxyGenTarFileName = "doc.tar.gz"
         String DoxyConfigFileName = "doxygen_config.dox"
     }
