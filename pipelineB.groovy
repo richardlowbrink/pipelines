@@ -59,7 +59,7 @@ pipeline {
                     sh 'ls  ../"${DoxyGenTarFileName}"'
                     sh 'cp -f ../"${DoxyGenTarFileName}" doxy_gen"${PIPELINE_NUMBER}".tar.gz'
                     sh 'ls -alh doxy_gen"${PIPELINE_NUMBER}".tar.gz'
-                    sh 'git add doxy_gen"${PIPELINE_NUMBER}".tar.gz"'
+                    sh 'git add doxy_gen"${PIPELINE_NUMBER}".tar.gz'
                     sh 'git commit -m "Added built artifact from pipeline: ${PIPELINE_NAME}:${PIPELINE_NUMBER}"'
                     sh 'git remote set-url origin git@github.com:lurwas/pipelines.git'
                     sh 'git remote -v'
