@@ -25,41 +25,41 @@ pipeline {
         }
         stage('Adjust Config File'){
             steps {
-            echo "Set src in INPUT"
-            sh "sed -i 's/INPUT            *=\$/INPUT                  = \"src\"/g' ${DoxyConfigFileName}"
-            echo "Generate HTML"
-            sh "sed -i 's/GENERATE_HTML[ \t]*= NO/GENERATE_HTML          = YES/g' ${DoxyConfigFileName}"
-            echo "Don't generate LATEX"
-            sh "sed -i 's/GENERATE_LATEX[ \t]*= YES/GENERATE_LATEX    = NO/g' ${DoxyConfigFileName}"
-            echo "Enable the recursive operation"
-            sh "sed -i 's/^RECURSIVE[ \t]*= NO/RECURSIVE              = YES/g' ${DoxyConfigFileName}"
-            sh "sed -i 's/^WARN_LOGFILE[ \t]*=/WARN_LOGFILE              = ${DoxyWarningLogFileName}/g' ${DoxyConfigFileName}"
+                echo "Set src in INPUT"
+                sh "sed -i 's/INPUT            *=\$/INPUT                  = \"src\"/g' ${DoxyConfigFileName}"
+                echo "Generate HTML"
+                sh "sed -i 's/GENERATE_HTML[ \t]*= NO/GENERATE_HTML          = YES/g' ${DoxyConfigFileName}"
+                echo "Don't generate LATEX"
+                sh "sed -i 's/GENERATE_LATEX[ \t]*= YES/GENERATE_LATEX    = NO/g' ${DoxyConfigFileName}"
+                echo "Enable the recursive operation"
+                sh "sed -i 's/^RECURSIVE[ \t]*= NO/RECURSIVE              = YES/g' ${DoxyConfigFileName}"
+                sh "sed -i 's/^WARN_LOGFILE[ \t]*=/WARN_LOGFILE              = ${DoxyWarningLogFileName}/g' ${DoxyConfigFileName}"
             }
         }
         stage('Run DoxyGen'){
             steps {
-            sh "doxygen $DoxyConfigFileName"
-            sh "ls -alh $DoxyWarningLogFileName"
+                sh "doxygen $DoxyConfigFileName"
+                sh "ls -alh $DoxyWarningLogFileName"
             }
         }
         stage('Clone RepoC'){
             steps {
-            sh 'mkdir -p repoC'
-            dir("repoC")
-            {
-                git branch: 'main',
-                    url: 'ssh://git@github.com/lurwas/repoC.git'
-                sh 'pwd'
-                sh 'ls -alh src/'
-                sh 'ls -alh'
-                sh 'pip install -e .'
-                sh "python3 src/log_parser_richard/__init__.py -f ${WarningLogFile}"
-            }
+                sh 'mkdir -p repoC'
+                dir("repoC")
+                        {
+                            git branch: 'main',
+                                    url: 'ssh://git@github.com/lurwas/repoC.git'
+                            sh 'pwd'
+                            sh 'ls -alh src/'
+                            sh 'ls -alh'
+                            sh 'pip install -e .'
+                            sh "python3 src/log_parser_richard/__init__.py -f ${WarningLogFile}"
+                        }
             }
         }
         stage('Archive It'){
             steps {
-            archiveArtifacts "${CsvOutputFileName}"
+                archiveArtifacts "${CsvOutputFileName}"
             }
         }
         stage('Push to pipelines repo in branch taskC'){
