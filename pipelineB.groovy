@@ -1,8 +1,7 @@
-import static PipelineLibrary.*
-
 pipeline {
     agent any
     environment {
+        def pipelineLibrary =  load 'PipelineLibrary.groovy'
         def PIPELINE_NAME = "${currentBuild.fullDisplayName}"
         def PIPELINE_NUMBER = "${currentBuild.number}"
         def DoxygenTarFilename = "doc.tar.gz"
@@ -18,21 +17,21 @@ pipeline {
         stage('Generate Doxygen Config File') {
             steps {
                 script {
-                    generateDoxygenConfigFile(DoxygenConfigFilename)
+                    pipelineLibrary.generateDoxygenConfigFile(DoxygenConfigFilename)
                 }
             }
         }
         stage('Adjust Config File') {
             steps {
                 script {
-                    adjustDoxygenConfigFile(DoxygenConfigFilename, "")
+                    pipelineLibrary.adjustDoxygenConfigFile(DoxygenConfigFilename, "")
                 }
             }
         }
-        stage('Run DoxyGen') {
+        stage('Run Doxygen') {
             steps {
                 script {
-                    runDoxygen(DoxygenConfigFilename)
+                    pipelineLibrary.runDoxygen(DoxygenConfigFilename)
                 }
             }
         }
@@ -49,7 +48,7 @@ pipeline {
         stage('Push to pipelines repo in branch taskB'){
             steps {
                 script {
-                    pushToPipelinesRepo("taskB",
+                    pipelineLibrary.pushToPipelinesRepo("taskB",
                             PIPELINE_NUMBER,
                             PIPELINE_NAME,
                             "doxygen_doc.tar.gz")

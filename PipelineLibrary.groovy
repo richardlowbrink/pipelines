@@ -3,7 +3,7 @@ class PipelineLibrary {
     String COMMIT_AUTHOR_NAME = "lurwas"
     String COMMIT_AUTHOR_EMAIL = "lurwas@emacs.se"
     String pipelinesRepo = "ssh://git@github.com/lurwas/pipelines.git"
-    static def pushToPipelinesRepo(String branch, String pipelineNumber, String pipelineName, String artifactFileName) {
+    def pushToPipelinesRepo(String branch, String pipelineNumber, String pipelineName, String artifactFileName) {
         steps {
             sh 'mkdir -p pipelines'
              dir("pipelines") {
@@ -27,7 +27,7 @@ class PipelineLibrary {
         }
     }
 
-    static def adjustDoxygenConfigFile(String doxygenConfigFilename, String doxygenWarningLogName) {
+    def adjustDoxygenConfigFile(String doxygenConfigFilename, String doxygenWarningLogName) {
         steps {
             echo "Set src in INPUT"
             sh "sed -i 's/INPUT            *=\$/INPUT                  = \"src\"/g' $doxygenConfigFilename"
@@ -46,16 +46,16 @@ class PipelineLibrary {
         }
     }
 
-    static def runDoxygen(String doxygenConfigFilename) {
+    def runDoxygen(String doxygenConfigFilename) {
         steps {
             echo "Run Doxygen and only produce HTML documentation"
             sh "doxygen ${doxygenConfigFilename}"
         }
     }
 
-    static def generateDoxygenConfigFile(String doxygenConfigFilename) {
+    def generateDoxygenConfigFile(String doxygenConfigFilename) {
         steps {
-            echo "Generate doxygen config file and produce $doxygenConfigFilename"
+            echo "Generate Doxygen config file and produce $doxygenConfigFilename"
             sh "doxygen -s -g $doxygenConfigFilename"
         }
     }
