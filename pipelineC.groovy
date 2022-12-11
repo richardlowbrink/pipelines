@@ -2,7 +2,6 @@ def pipelineLibrary
 String pipelineName = "${currentBuild.fullDisplayName}"
 String doxygenConfigFilename = "doxygen_config.dox"
 String doxygenWarningLogFileName = "doxygen_warning.log"
-String warningLogFile = "pipelineC/doxygen_warning.log"
 String pipelinesRepoURL = 'ssh://git@github.com/lurwas/pipelines.git'
 String csvOutputFilename = "log_lines.csv"
 node() {
@@ -36,7 +35,7 @@ node() {
             sh 'ls -alh src/'
             sh 'ls -alh'
             sh 'pip install -e .'
-            sh "python3 src/log_parser_richard/__init__.py -f ${warningLogFile}"
+            sh "python3 src/log_parser_richard/__init__.py -f ${doxygenWarningLogFileName}"
             sh "mv -f ${csvOutputFilename} ../${csvOutputFilename}"
         }
     }
