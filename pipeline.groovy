@@ -12,6 +12,9 @@ def pushToPipelinesRepo(String branch, String pipelineNumber, String pipelineNam
         sh "git checkout -B $branch"
         sh 'git fetch --all'
         sh "git reset --hard origin/$branch"
+        sh 'pwd'
+        sh 'ls -alh'
+        sh 'ls -alh ../'
         sh "ls  ../$artifactFileName"
         sh "cp -f ../$artifactFileName $artifactFileName$pipelineName:$pipelineNumber"
         sh "ls -alh $artifactFileName"
