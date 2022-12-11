@@ -4,7 +4,7 @@ def PIPELINE_NUMBER = "${currentBuild.number}"
 def DoxygenTarFilename = "doc.tar.gz"
 def DoxygenConfigFilename = "doxygen_config.dox"
 
-node('java-agent') {
+node('master') {
     stage('load pipeline library') {
             pipelineLibrary = load 'pipeline.groovy'
     }
