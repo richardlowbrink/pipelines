@@ -19,10 +19,14 @@ def pushToPipelinesRepo(String pipelinesRepoUrl, String branch, String pipelineN
 
 // Removes the cached git file (if any) from the specified repository and branch
 def removedCachedArtifact(String artifactFileName, String repoUrl, String branch) {
-    git branch: branch, url: repoUrl
-    sh "git rm --cached $artifactFileName" || true
-    sh 'git commit --allow-empty -m "remove cache artifact (if any)"' || true
-    sh "git push --set-upstream origin $branch" || true
+    try {
+        git branch: branch, url: repoUrl
+        sh "git rm --cached $artifactFileName" || true
+        sh 'git commit --allow-empty -m "remove cache artifact (if any)"' || true
+        sh "git push --set-upstream origin $branch" || true
+    } catch (Exception ignored) {
+        echo "No cached artifact found in $repoUrl:$branch"
+    }
 }
 
 def adjustDoxygenConfigFile(String doxygenConfigFilename, String doxygenWarningLogName) {
