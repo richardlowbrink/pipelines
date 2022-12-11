@@ -1,4 +1,3 @@
-def pipelineLibraryFile
 def pipelineLibrary
 def PIPELINE_NAME = "${currentBuild.fullDisplayName}"
 def PIPELINE_NUMBER = "${currentBuild.number}"
@@ -7,8 +6,7 @@ def DoxygenConfigFilename = "doxygen_config.dox"
 
 node('pipelineB') {
     stage('load pipeline library') {
-            pipelineLibraryFile = load 'PipelineBCUtils.groovy'
-            pipelineLibrary = new Utils()
+            pipelineLibrary = load 'pipeline.groovy'
     }
     stage('Clone repoA') {
                 // Get some code from the GitHub repository containing the clone of grpc
