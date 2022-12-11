@@ -36,7 +36,7 @@ def adjustDoxygenConfigFile(String doxygenConfigFilename, String doxygenWarningL
 
 def runDoxygen(String doxygenConfigFilename) {
     echo "Run Doxygen and only produce HTML documentation"
-    sh "doxygen ${doxygenConfigFilename}"
+    sh "doxygen $doxygenConfigFilename"
 }
 
 def generateDoxygenConfigFile(String doxygenConfigFilename) {
