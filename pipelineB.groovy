@@ -1,7 +1,7 @@
 def pipelineLibrary
-String PIPELINE_NAME = "${currentBuild.fullDisplayName}"
-String DoxygenTarFilename = "doc.tar.gz"
-String DoxygenConfigFilename = "doxygen_config.dox"
+String pipelineName = "${currentBuild.fullDisplayName}"
+String doxygenTarFilename = "doc.tar.gz"
+String doxygenConfigFilename = "doxygen_config.dox"
 String pipelinesRepoURL = 'ssh://git@github.com/lurwas/pipelines.git'
 
 node() {
@@ -18,32 +18,32 @@ node() {
     }
     stage('Generate Doxygen Config File') {
         script {
-            pipelineLibrary.generateDoxygenConfigFile(DoxygenConfigFilename)
+            pipelineLibrary.generateDoxygenConfigFile(doxygenConfigFilename)
         }
     }
     stage('Adjust Config File') {
         script {
-            pipelineLibrary.adjustDoxygenConfigFile(DoxygenConfigFilename, "")
+            pipelineLibrary.adjustDoxygenConfigFile(doxygenConfigFilename, "")
         }
     }
     stage('Run Doxygen') {
         script {
-            pipelineLibrary.runDoxygen(DoxygenConfigFilename)
+            pipelineLibrary.runDoxygen(doxygenConfigFilename)
         }
     }
     stage('Package Result') {
-        sh "tar -czvf $DoxygenTarFilename html"
+        sh "tar -czvf $doxygenTarFilename html"
     }
     stage('Archive It') {
-        archiveArtifacts DoxygenTarFilename
+        archiveArtifacts doxygenTarFilename
     }
     stage('Push to pipelines repo in branch taskB'){
         script {
             pipelineLibrary.pushToPipelinesRepo(
                     pipelinesRepoURL,
                     "taskB",
-                    PIPELINE_NAME,
-                    DoxygenTarFilename)
+                    pipelineName,
+                    doxygenTarFilename)
         }
     }
 }
