@@ -31,7 +31,7 @@ node() {
         sh "tar -czvf $DoxygenTarFilename html"
     }
     stage('Archive It') {
-        archiveArtifacts "${DoxyGenTarFileName}"
+        archiveArtifacts DoxygenTarFilename
     }
     stage('Push to pipelines repo in branch taskB'){
         script {
