@@ -1,4 +1,4 @@
-def pushToPipelinesRepo(String branch, String pipelineNumber, String pipelineName, String artifactFileName) {
+def pushToPipelinesRepo(String branch, String pipelineName, String artifactFileName) {
     // TODO: Remove the hard coded credentials
     String COMMIT_AUTHOR_NAME = "lurwas"
     String COMMIT_AUTHOR_EMAIL = "lurwas@emacs.se"
@@ -16,13 +16,13 @@ def pushToPipelinesRepo(String branch, String pipelineNumber, String pipelineNam
         sh 'ls -alh'
         sh 'ls -alh ../'
         sh "ls  ../$artifactFileName"
-        String uniqueFileName = pipelineName + "_" + pipelineNumber + "_" + artifactFileName
+        String uniqueFileName = pipelineName + "_" + artifactFileName
         uniqueFileName = uniqueFileName.replaceAll("\\s", "")
         echo "Created a unique file name: $uniqueFileName"
         sh "cp -f ../$artifactFileName $uniqueFileName"
         sh "ls -alh $uniqueFileName"
         sh "git add $uniqueFileName"
-        sh "git commit -m \"add built artifact from pipeline: $pipelineName:$pipelineNumber\""
+        sh "git commit -m \"add built artifact from pipeline: $pipelineName\""
         sh "git remote set-url origin $pipelinesRepo"
         sh 'git remote -v'
         sh 'git status'

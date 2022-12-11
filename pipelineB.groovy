@@ -1,6 +1,5 @@
 def pipelineLibrary
 def PIPELINE_NAME = "${currentBuild.fullDisplayName}"
-def PIPELINE_NUMBER = "${currentBuild.number}"
 def DoxygenTarFilename = "doc.tar.gz"
 def DoxygenConfigFilename = "doxygen_config.dox"
 
@@ -43,13 +42,8 @@ node() {
         archiveArtifacts DoxygenTarFilename
     }
     stage('Push to pipelines repo in branch taskB'){
-        println("Current build: ${currentBuild.fullDisplayName}")
-        println("Pipeline name: ${PIPELINE_NAME}")
-        println("Pipeline number: ${PIPELINE_NUMBER}")
-        String pipelineNumber = "${PIPELINE_NUMBER}"
         script {
             pipelineLibrary.pushToPipelinesRepo("taskB",
-                    pipelineNumber,
                     PIPELINE_NAME,
                     DoxygenTarFilename)
         }
