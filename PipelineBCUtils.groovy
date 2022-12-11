@@ -1,4 +1,4 @@
-class PipelineLibrary {
+class Utils {
     // TODO: Remove the hard coded credentials
     String COMMIT_AUTHOR_NAME = "lurwas"
     String COMMIT_AUTHOR_EMAIL = "lurwas@emacs.se"
@@ -60,3 +60,5 @@ class PipelineLibrary {
         }
     }
 }
+
+return this
