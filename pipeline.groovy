@@ -5,29 +5,15 @@ def pushToPipelinesRepo(String pipelinesRepoUrl, String branch, String pipelineN
         sh 'ls -alh'
         sh 'ls -alh ../'
         sh "ls  ../$artifactFileName"
-        sh "cp -f ../$artifactFileName $artifactFileName"
+        sh "mv -f ../$artifactFileName $artifactFileName"
         sh "ls -alh $artifactFileName"
-        removedCachedArtifact(artifactFileName, pipelinesRepoUrl, branch)
         sh "git add $artifactFileName"
-        sh "git commit -m \"add built artifact from pipeline: $pipelineName\""
+        // Allow empty commit cause we might not have a changed file
+        sh "git commit --allow-empty -m \"add built artifact from pipeline: $pipelineName\""
         sh "git remote set-url origin $pipelinesRepoUrl"
         sh 'git remote -v'
         sh 'git status'
         sh "git push --set-upstream origin $branch"
-    }
-}
-
-// Removes the cached git file (if any) from the specified repository and branch
-// Violates git best practices. Other solution could be to create a UIN for
-// each artifact. But this is a simple solution for now.
-def removedCachedArtifact(String artifactFileName, String repoUrl, String branch) {
-    try {
-        git branch: branch, url: repoUrl
-        sh "git rm --cached $artifactFileName"
-        sh 'git commit --allow-empty -m "remove cache artifact (if any)"'
-        sh "git push --set-upstream origin $branch"
-    } catch (Exception ignored) {
-        echo "No cached artifact found in $repoUrl:$branch"
     }
 }
 

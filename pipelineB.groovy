@@ -1,7 +1,7 @@
 def pipelineLibrary
-def PIPELINE_NAME = "${currentBuild.fullDisplayName}"
-def DoxygenTarFilename = "doc.tar.gz"
-def DoxygenConfigFilename = "doxygen_config.dox"
+String PIPELINE_NAME = "${currentBuild.fullDisplayName}"
+String DoxygenTarFilename = "doc.tar.gz"
+String DoxygenConfigFilename = "doxygen_config.dox"
 String pipelinesRepoURL = 'ssh://git@github.com/lurwas/pipelines.git'
 
 node() {
