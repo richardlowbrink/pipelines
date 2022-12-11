@@ -18,6 +18,8 @@ def pushToPipelinesRepo(String pipelinesRepoUrl, String branch, String pipelineN
 }
 
 // Removes the cached git file (if any) from the specified repository and branch
+// Violates git best practices. Other solution could be to create a UIN for
+// each artifact. But this is a simple solution for now.
 def removedCachedArtifact(String artifactFileName, String repoUrl, String branch) {
     try {
         git branch: branch, url: repoUrl
