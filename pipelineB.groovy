@@ -6,7 +6,7 @@ def DoxygenConfigFilename = "doxygen_config.dox"
 
 node() {
     stage('load pipeline library') {
-        sh 'git checkout pipeline_library.groovy'
+        sh 'git checkout pipeline.groovy'
         pipelineLibrary = load 'pipeline.groovy'
     }
     stage('Clone repoA') {
