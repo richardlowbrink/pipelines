@@ -21,9 +21,9 @@ def pushToPipelinesRepo(String pipelinesRepoUrl, String branch, String pipelineN
 def removedCachedArtifact(String artifactFileName, String repoUrl, String branch) {
     try {
         git branch: branch, url: repoUrl
-        sh "git rm --cached $artifactFileName" || true
-        sh 'git commit --allow-empty -m "remove cache artifact (if any)"' || true
-        sh "git push --set-upstream origin $branch" || true
+        sh "git rm --cached $artifactFileName"
+        sh 'git commit --allow-empty -m "remove cache artifact (if any)"'
+        sh "git push --set-upstream origin $branch"
     } catch (Exception ignored) {
         echo "No cached artifact found in $repoUrl:$branch"
     }
