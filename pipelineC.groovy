@@ -36,7 +36,7 @@ node() {
             sh 'ls -alh'
             sh 'pip install -e .'
             sh "python3 src/log_parser_richard/__init__.py -f ../$doxygenWarningLogFileName"
-            dsh "mv -f $csvOutputFilename ../$csvOutputFilename"
+            sh "mv -f $csvOutputFilename ../$csvOutputFilename"
         }
     }
     stage('Archive It'){
