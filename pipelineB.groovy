@@ -1,13 +1,13 @@
+import static PipelineLibrary.*
+
 pipeline {
-    def PipelineLibrary = load 'PipelineLibrary.groovy'
     agent any
     environment {
-        String PIPELINE_NAME = "${currentBuild.fullDisplayName}"
-        String PIPELINE_NUMBER = "${currentBuild.number}"
-        String DoxygenTarFilename = "doc.tar.gz"
-        String DoxygenConfigFilename = "doxygen_config.dox"
+        def PIPELINE_NAME = "${currentBuild.fullDisplayName}"
+        def PIPELINE_NUMBER = "${currentBuild.number}"
+        def DoxygenTarFilename = "doc.tar.gz"
+        def DoxygenConfigFilename = "doxygen_config.dox"
     }
-
     stages {
         stage('Clone repoA') {
             steps {
@@ -17,17 +17,23 @@ pipeline {
         }
         stage('Generate Doxygen Config File') {
             steps {
-                PipelineLibrary.generateDoxygenConfigFile(DoxygenConfigFilename)
+                script {
+                    generateDoxygenConfigFile(DoxygenConfigFilename)
+                }
             }
         }
         stage('Adjust Config File') {
             steps {
-                PipelineLibrary.adjustConfigFile(DoxygenConfigFilename, "")
+                script {
+                    adjustDoxygenConfigFile(DoxygenConfigFilename, "")
+                }
             }
         }
         stage('Run DoxyGen') {
             steps {
-                PipelineLibrary.runDoxygen(DoxygenConfigFilename)
+                script {
+                    runDoxygen(DoxygenConfigFilename)
+                }
             }
         }
         stage('Package Result') {
@@ -42,11 +48,12 @@ pipeline {
         }
         stage('Push to pipelines repo in branch taskB'){
             steps {
-                PipelineLibrary.pushToPipelinesRepo("taskB",
-                        PIPELINE_NUMBER,
-                        PIPELINE_NAME,
-                        DoxygenTarFilename,
-                        "doxygen_doc.tar.gz")
+                script {
+                    pushToPipelinesRepo("taskB",
+                            PIPELINE_NUMBER,
+                            PIPELINE_NAME,
+                            "doxygen_doc.tar.gz")
+                }
             }
         }
     }
