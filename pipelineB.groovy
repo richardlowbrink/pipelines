@@ -5,9 +5,16 @@ def DoxygenTarFilename = "doc.tar.gz"
 def DoxygenConfigFilename = "doxygen_config.dox"
 
 node() {
+    stage('clone pipeline repo') {
+        dir('pipeline') {
+            git branch: 'main',
+                    url: 'ssh://git@github.com/lurwas/pipelines.git'
+        }
+    }
     stage('load pipeline library') {
-        sh 'git checkout main pipeline.groovy'
-        pipelineLibrary = load 'pipeline.groovy'
+        dir('pipeline') {
+            pipelineLibrary = load 'pipeline_library.groovy'
+        }
     }
     stage('Clone repoA') {
                 // Get some code from the GitHub repository containing the clone of grpc
