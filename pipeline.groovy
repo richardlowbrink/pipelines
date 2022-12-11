@@ -16,7 +16,7 @@ def pushToPipelinesRepo(String branch, String pipelineNumber, String pipelineNam
         sh 'ls -alh'
         sh 'ls -alh ../'
         sh "ls  ../$artifactFileName"
-        def uniqueFileName = "${pipelineName}_${pipelineNumber}_${artifactFileName}"
+        String uniqueFileName = "${pipelineName}_${pipelineNumber}_${artifactFileName}"
         sh "cp -f ../$artifactFileName $uniqueFileName"
         sh "ls -alh $uniqueFileName"
         sh "git add $uniqueFileName"
