@@ -1,33 +1,28 @@
-def pushToPipelinesRepo(String branch, String pipelineName, String artifactFileName) {
-    // TODO: Remove the hard coded credentials
-    String COMMIT_AUTHOR_NAME = "lurwas"
-    String COMMIT_AUTHOR_EMAIL = "lurwas@emacs.se"
-    String pipelinesRepo = "ssh://git@github.com/lurwas/pipelines.git"
-    sh 'mkdir -p pipelines'
+def pushToPipelinesRepo(String pipelinesRepoUrl, String branch, String pipelineName, String artifactFileName) {
     dir("pipelines") {
-        git branch: branch, url: pipelinesRepo
-        sh "git config user.name $COMMIT_AUTHOR_NAME"
-        sh "git config user.email $COMMIT_AUTHOR_EMAIL"
+        git branch: branch, url: pipelinesRepoUrl
         sh 'git status'
-        sh "git checkout -B $branch"
-        sh 'git fetch --all'
-        sh "git reset --hard origin/$branch"
-        sh 'pwd'
         sh 'ls -alh'
         sh 'ls -alh ../'
         sh "ls  ../$artifactFileName"
-        String uniqueFileName = pipelineName + "_" + artifactFileName
-        uniqueFileName = uniqueFileName.replaceAll("\\s", "")
-        echo "Created a unique file name: $uniqueFileName"
-        sh "cp -f ../$artifactFileName $uniqueFileName"
-        sh "ls -alh $uniqueFileName"
-        sh "git add $uniqueFileName"
+        sh "cp -f ../$artifactFileName $artifactFileName"
+        sh "ls -alh $artifactFileName"
+        removedCachedArtifact(artifactFileName, pipelinesRepoUrl, branch)
+        sh "git add $artifactFileName"
         sh "git commit -m \"add built artifact from pipeline: $pipelineName\""
-        sh "git remote set-url origin $pipelinesRepo"
+        sh "git remote set-url origin $pipelinesRepoUrl"
         sh 'git remote -v'
         sh 'git status'
         sh "git push --set-upstream origin $branch"
     }
+}
+
+// Removes the cached git file (if any) from the specified repository and branch
+def removedCachedArtifact(String artifactFileName, String repoUrl, String branch) {
+    git branch: branch, url: repoUrl
+    sh "git rm --cached $artifactFileName" || true
+    sh 'git commit --allow-empty -m "remove cache artifact (if any)"' || true
+    sh "git push --set-upstream origin $branch" || true
 }
 
 def adjustDoxygenConfigFile(String doxygenConfigFilename, String doxygenWarningLogName) {

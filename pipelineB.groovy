@@ -2,23 +2,19 @@ def pipelineLibrary
 def PIPELINE_NAME = "${currentBuild.fullDisplayName}"
 def DoxygenTarFilename = "doc.tar.gz"
 def DoxygenConfigFilename = "doxygen_config.dox"
+String pipelinesRepoURL = 'ssh://git@github.com/lurwas/pipelines.git'
 
 node() {
-    stage('clone pipeline repo') {
-        sh 'mkdir -p pipelines'
+    stage('clone pipeline repo and load pipeline library') {
         dir('pipelines') {
             git branch: 'main',
-                    url: 'ssh://git@github.com/lurwas/pipelines.git'
-        }
-    }
-    stage('load pipeline library') {
-        dir('pipelines') {
+                    url: pipelinesRepoURL
             pipelineLibrary = load 'pipeline.groovy'
         }
     }
     stage('Clone repoA') {
-                // Get some code from the GitHub repository containing the clone of grpc
-                git 'ssh://git@github.com/lurwas/grpc_richard.git'
+        // Get some code from the GitHub repository containing the clone of grpc
+        git 'ssh://git@github.com/lurwas/grpc_richard.git'
     }
     stage('Generate Doxygen Config File') {
         script {
@@ -43,7 +39,9 @@ node() {
     }
     stage('Push to pipelines repo in branch taskB'){
         script {
-            pipelineLibrary.pushToPipelinesRepo("taskB",
+            pipelineLibrary.pushToPipelinesRepo(
+                    pipelinesRepoURL,
+                    "taskB",
                     PIPELINE_NAME,
                     DoxygenTarFilename)
         }
