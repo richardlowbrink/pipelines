@@ -6,7 +6,8 @@ def DoxygenConfigFilename = "doxygen_config.dox"
 
 node() {
     stage('load pipeline library') {
-            pipelineLibrary = load 'pipeline.groovy'
+        sh 'git checkout pipeline_library.groovy'
+        pipelineLibrary = load 'pipeline.groovy'
     }
     stage('Clone repoA') {
                 // Get some code from the GitHub repository containing the clone of grpc
