@@ -16,9 +16,10 @@ def pushToPipelinesRepo(String branch, String pipelineNumber, String pipelineNam
         sh 'ls -alh'
         sh 'ls -alh ../'
         sh "ls  ../$artifactFileName"
-        sh "cp -f ../$artifactFileName $artifactFileName$pipelineName:$pipelineNumber"
-        sh "ls -alh $artifactFileName"
-        sh "git add $artifactFileName"
+        def uniqueFileName = "${pipelineName}_${pipelineNumber}_${artifactFileName}"
+        sh "cp -f ../$artifactFileName $uniqueFileName"
+        sh "ls -alh $uniqueFileName"
+        sh "git add $uniqueFileName"
         sh "git commit -m \"add built artifact from pipeline: $pipelineName:$pipelineNumber\""
         sh "git remote set-url origin $pipelinesRepo"
         sh 'git remote -v'
