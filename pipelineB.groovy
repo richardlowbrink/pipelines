@@ -38,7 +38,7 @@ node() {
             pipelineLibrary.pushToPipelinesRepo("taskB",
                     PIPELINE_NUMBER,
                     PIPELINE_NAME,
-                    "doxygen_doc.tar.gz")
+                    DoxygenTarFilename)
         }
     }
 }
