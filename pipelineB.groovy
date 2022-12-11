@@ -43,6 +43,9 @@ node() {
         archiveArtifacts DoxygenTarFilename
     }
     stage('Push to pipelines repo in branch taskB'){
+        println("Current build: ${currentBuild.fullDisplayName}")
+        println("Pipeline name: ${PIPELINE_NAME}")
+        println("Pipeline number: ${PIPELINE_NUMBER}")
         script {
             pipelineLibrary.pushToPipelinesRepo("taskB",
                     PIPELINE_NUMBER,
