@@ -6,13 +6,14 @@ def DoxygenConfigFilename = "doxygen_config.dox"
 
 node() {
     stage('clone pipeline repo') {
-        dir('pipeline') {
+        sh 'mkdir -p pipelines'
+        dir('pipelines') {
             git branch: 'main',
                     url: 'ssh://git@github.com/lurwas/pipelines.git'
         }
     }
     stage('load pipeline library') {
-        dir('pipeline') {
+        dir('pipelines') {
             pipelineLibrary = load 'pipeline_library.groovy'
         }
     }
