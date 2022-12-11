@@ -3,7 +3,7 @@ def pushToPipelinesRepo(String branch, String pipelineNumber, String pipelineNam
     String COMMIT_AUTHOR_NAME = "lurwas"
     String COMMIT_AUTHOR_EMAIL = "lurwas@emacs.se"
     String pipelinesRepo = "ssh://git@github.com/lurwas/pipelines.git"
-    sh 'mkdir -p --force pipelines'
+    sh 'mkdir -p pipelines'
     dir("pipelines") {
         git branch: branch, url: pipelinesRepo
         sh "git config user.name $COMMIT_AUTHOR_NAME"
