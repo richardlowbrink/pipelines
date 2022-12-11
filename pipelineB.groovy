@@ -5,7 +5,7 @@ String DoxygenConfigFilename = "doxygen_config.dox"
 String pipelinesRepoURL = 'ssh://git@github.com/lurwas/pipelines.git'
 
 node() {
-    stage('clone pipeline repo and load pipeline library') {
+    stage('Clone Pipeline Repository and Load Pipeline Library') {
         dir('pipelines') {
             git branch: 'main',
                     url: pipelinesRepoURL

@@ -6,7 +6,7 @@ String warningLogFile = "pipelineC/doxygen_warning.log"
 String pipelinesRepoURL = 'ssh://git@github.com/lurwas/pipelines.git'
 String csvOutputFilename = "log_lines.csv"
 node() {
-    stage('clone pipeline repo and load pipeline library') {
+    stage('Clone Pipeline Repository and Load Pipeline Library') {
         dir('pipelines') {
             git branch: 'main',
                     url: pipelinesRepoURL
@@ -14,10 +14,8 @@ node() {
         }
     }
     stage('Clone Repository') {
-        steps {
-            // Get the code from the grpc cloned repo
-            git 'ssh://git@github.com/lurwas/grpc_richard.git'
-        }
+        // Get the code from the grpc cloned repo
+        git 'ssh://git@github.com/lurwas/grpc_richard.git'
     }
     stage('Generate Doxygen Config File') {
         pipelineLibrary.generateDoxygenConfigFile(doxygenConfigFilename)
@@ -45,7 +43,7 @@ node() {
     stage('Archive It'){
         archiveArtifacts "${csvOutputFilename}"
     }
-    stage('Push to pipelines repo in branch taskC') {
+    stage('Push to Pipelines Repository in Branch taskC') {
         pipelineLibrary.pushToPipelinesRepo(
                 pipelinesRepoURL,
                 "taskC",
