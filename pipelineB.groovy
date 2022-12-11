@@ -14,7 +14,7 @@ node() {
     }
     stage('load pipeline library') {
         dir('pipelines') {
-            pipelineLibrary = load 'pipeline_library.groovy'
+            pipelineLibrary = load 'pipeline.groovy'
         }
     }
     stage('Clone repoA') {
