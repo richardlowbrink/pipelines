@@ -16,9 +16,13 @@ pipeline {
         }
         stage('Generate Doxygen Config File') {
             steps {
-                script {
-                    pipelineLibrary.generateDoxygenConfigFile(DoxygenConfigFilename)
+                echo "Doing some closure"
+                node 'generate_doxygen_config' {
+                    script {
+                        pipelineLibrary.generateDoxygenConfigFile(DoxygenConfigFilename)
+                    }
                 }
+                echo "Finished closure"
             }
         }
         stage('Adjust Config File') {
