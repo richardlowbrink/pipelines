@@ -17,9 +17,9 @@ def execute() {
                 pipelineLibrary = load 'pipeline.groovy'
             }
         }
-        stage('Clone Repository') {
+        stage('Clone Repository repoA') {
             // Get the code from the grpc cloned repo
-            git 'ssh://git@github.com/lurwas/grpc_richard.git'
+            git 'ssh://git@github.com/lurwas/repoA.git'
         }
         stage('Generate Doxygen Config File') {
             pipelineLibrary.generateDoxygenConfigFile(doxygenConfigFilename)
