@@ -2,7 +2,7 @@ def pipelineLibrary
 String pipelineName = "${currentBuild.fullDisplayName}"
 String doxygenTarFilename = "doc.tar.gz"
 String doxygenConfigFilename = "doxygen_config.dox"
-String pipelinesRepoURL = 'ssh://git@github.com/lurwas/pipelines.git'
+String pipelinesRepoURL = 'ssh://git@github.com/richardlowbrink/pipelines.git'
 
 node() {
     // Check that sed is installed and output the version
