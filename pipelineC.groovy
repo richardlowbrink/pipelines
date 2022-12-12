@@ -35,7 +35,7 @@ node() {
             sh 'ls -alh src/'
             sh 'ls -alh'
             sh 'pip install .'
-            sh "python3 src/log_parser_richard/__init__.py -f ../$doxygenWarningLogFileName"
+            sh "python3  -m log_parser_richard -f ../$doxygenWarningLogFileName"
             sh "mv -f $csvOutputFilename ../$csvOutputFilename"
         }
     }
