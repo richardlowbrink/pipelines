@@ -2,7 +2,7 @@ def pipelineLibrary
 String pipelineName = "${currentBuild.fullDisplayName}"
 String doxygenConfigFilename = "doxygen_config.dox"
 String doxygenWarningLogFileName = "doxygen_warning.log"
-String pipelinesRepoURL = 'ssh://git@github.com/lurwas/pipelines.git'
+String pipelinesRepoURL = 'ssh://git@github.com/richardlowbrink/pipelines.git'
 String csvOutputFilename = "log_lines.csv"
 node() {
     // Check that sed is installed and output the version
