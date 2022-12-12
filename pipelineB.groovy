@@ -17,8 +17,7 @@ node() {
         }
     }
     stage('Clone repoA') {
-        // Get some code from the GitHub repository containing the clone of grpc
-        git 'ssh://git@github.com/lurwas/grpc_richard.git'
+        pipelineLibrary.cloneRepoA()
     }
     stage('Generate Doxygen Config File') {
         script {
