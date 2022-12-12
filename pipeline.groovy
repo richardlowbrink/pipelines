@@ -17,6 +17,12 @@ def pushToPipelinesRepo(String pipelinesRepoUrl, String branch, String pipelineN
     }
 }
 
+def cloneRepoA() {
+    dir("repoA") {
+        git 'ssh://git@github.com/lurwas/repoA.git'
+    }
+}
+
 def adjustDoxygenConfigFile(String doxygenConfigFilename, String doxygenWarningLogName) {
     echo "Set src in INPUT"
     sh "sed -i 's/INPUT            *=\$/INPUT                  = \"src\"/g' $doxygenConfigFilename"
