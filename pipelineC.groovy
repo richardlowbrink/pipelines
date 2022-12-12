@@ -5,6 +5,10 @@ String doxygenWarningLogFileName = "doxygen_warning.log"
 String pipelinesRepoURL = 'ssh://git@github.com/lurwas/pipelines.git'
 String csvOutputFilename = "log_lines.csv"
 node() {
+    // Check that sed is installed and output the version
+    stage('Sanity Check'){
+        sh 'sed --version'
+    }
     stage('Clone Pipeline Repository and Load Pipeline Library') {
         dir('pipelines') {
             git branch: 'main',
