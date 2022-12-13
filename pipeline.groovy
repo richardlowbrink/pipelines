@@ -6,20 +6,39 @@ def pushToPipelinesRepo(String pipelinesRepoUrl, String branch, String pipelineN
         sh 'ls -alh ../'
         sh "ls  ../$artifactFileName"
         sh "mv -f ../$artifactFileName $artifactFileName"
-        sh "ls -alh $artifactFileName"
-        sh "git add $artifactFileName"
-        // Allow empty commit cause we might not have a changed file
-        sh "git commit --allow-empty -m \"add built artifact from pipeline: $pipelineName\""
-        sh "git remote set-url origin $pipelinesRepoUrl"
-        sh 'git remote -v'
-        sh 'git status'
-        sh "git push --set-upstream origin $branch"
+        // Only git commit add and push if the file has changed
+        if (isFileModified(artifactFileName)) {
+            sh "git add $artifactFileName"
+            sh "git commit -m \"add built artifact from pipeline: $pipelineName\""
+            sh 'git remote set-url origin $pipelinesRepoUrl'
+            sh 'git remote -v'
+            sh 'git status'
+            sh "git push --set-upstream origin $branch"
+        } else {
+            echo "No changes to $artifactFileName, will stubbornly refuse to push"
+        }
     }
 }
 
 def cloneRepoA() {
     dir("repoA") {
         git 'ssh://git@github.com/lurwas/repoA.git'
+    }
+}
+
+// Return true if the file has been modified in the git repo, false otherwise
+boolean isFileModified(String filename) {
+    def diff = sh (
+            script: "git diff $filename",
+            returnStdout: true
+    ).trim()
+    def regex = /${filename}/
+    if (diff =~ regex) {
+        println(filename + " has changed")
+        return true
+    } else {
+        println(filename + " has NOT changed")
+        return false
     }
 }
 
