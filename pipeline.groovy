@@ -29,7 +29,7 @@ def cloneRepoA() {
 // Return true if the file has been modified in the git repo, false otherwise
 boolean isFileModified(String filename) {
     def diff = sh (
-            script: "git diff $filename",
+            script: "git status",
             returnStdout: true
     ).trim()
     def regex = /${filename}/
