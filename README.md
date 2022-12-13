@@ -3,7 +3,12 @@ I assume that the Groovy Sandbox should be enabled.
 Since the Groovy Sandbox is enabled, no groovy way of manipulating
 the configuration file for doxygen is done, instead sed is used.
 A requirement is that GNU sed is installed on the Jenkins machine.
-Another assumptions is although no shared libraries are to be used, I took
+I assume that the naming 'artifacts' is used for the artifacts created by the
+pipeline jobs and not the pipeline jobs themselves.
+The assumption has also been made that the repoB and repoC should contain artifacts
+from my latest build of the pipeline jobs. If you want to build your own artifacts from pipelineC
+and push them, you need to remove the 'artifact' from the taskC branch.
+Another assumptions are although no shared libraries are to be used, I took
 the liberty to break out common code into a shared groovy file for inclusion in both
 pipeline scripts. (I like dry code).
 Normally the Jenkins pipelines would be triggered by a change in the repo using
