@@ -38,13 +38,18 @@ A: I tested the pipelineB and pipelineC by running them in a staging environment
    I also did some unit testing using the Jenkins Pipeline Unit library.
    The unit tests were done in the IntelliJ IDE and is located in the test folder of the pipeline repo main branch
    in the file TestPipeline.groovy.
+   The pom.xml file is located in the repo and the tests are possible to run using the command
+   ```mvn test```
    Example test here:
 
 ```groovy
-import org.junit.Test
+import org.junit.jupiter.api.Test
+// Import the pipelineUnit library
 import com.lesfurets.jenkins.unit.BasePipelineTest
 import org.junit.jupiter.api.BeforeEach
-
+import static org.junit.jupiter.api.Assertions.assertTrue
+import static org.junit.jupiter.api.Assertions.assertFalse
+// Everything tested in this class since I'm not really testing classes
 class TestPipeline extends BasePipelineTest {
 @Override
 @BeforeEach
