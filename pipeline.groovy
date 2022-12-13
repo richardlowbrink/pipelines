@@ -10,7 +10,7 @@ def pushToPipelinesRepo(String pipelinesRepoUrl, String branch, String pipelineN
         if (isFileModified(artifactFileName)) {
             sh "git add $artifactFileName"
             sh "git commit -m \"add built artifact from pipeline: $pipelineName\""
-            sh 'git remote set-url origin $pipelinesRepoUrl'
+            sh "git remote set-url origin $pipelinesRepoUrl"
             sh 'git remote -v'
             sh 'git status'
             sh "git push --set-upstream origin $branch"
